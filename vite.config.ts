@@ -5,6 +5,7 @@ import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
+    base: './', // Permet que funcioni en qualsevol subcarpeta o repositori de GitHub Pages
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
