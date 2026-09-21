@@ -10,7 +10,10 @@ import { ProgressAndLogsModal } from './components/ProgressAndLogsModal';
 import { PythonExportModal } from './components/PythonExportModal';
 import { ConfigShareModal } from './components/ConfigShareModal';
 import { LicenseModal } from './components/LicenseModal';
-import { QrCode, Sparkles, Sun, Moon, ShieldCheck, HeartHandshake, Mail } from 'lucide-react';
+import { GuideModal } from './components/GuideModal';
+import { LanguageSelector } from './components/LanguageSelector';
+import { useI18n } from './i18n';
+import { QrCode, Sparkles, Sun, Moon, ShieldCheck, HeartHandshake, Mail, FileText, BookOpen, Image as ImageIcon } from 'lucide-react';
 
 const STORAGE_KEY = 'qr_card_generator_config_v3';
 
@@ -36,6 +39,8 @@ const DEFAULT_CONFIG: GeneratorConfig = {
 };
 
 export default function App() {
+  const { t, language } = useI18n();
+
   // Load initial configuration from localStorage if available
   const [config, setConfig] = useState<GeneratorConfig>(() => {
     try {
@@ -122,6 +127,7 @@ export default function App() {
   const [showPythonModal, setShowPythonModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showLicenseModal, setShowLicenseModal] = useState(false);
+  const [showGuideModal, setShowGuideModal] = useState(false);
 
   // Theme state ('light' | 'dark')
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -305,37 +311,52 @@ export default function App() {
             </div>
             <div>
               <h1 className="text-base font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
-                Generador de Targetes QR
+                {t.appTitle}
                 <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
                   A4 PDF
                 </span>
               </h1>
               <p className="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">
-                Posicionament interactiu del QR • Sèrie {config.prefix}#### • Generador PDF i Python
+                {t.appSubtitle}
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
+            {/* Language Selector */}
+            <LanguageSelector />
+
             {/* Theme Toggle Button */}
             <button
               id="header-btn-theme-toggle"
               type="button"
               onClick={toggleTheme}
               className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 transition-colors shadow-2xs"
-              title={theme === 'dark' ? 'Canviar a Mode Clar' : 'Canviar a Mode Fosc'}
+              title={theme === 'dark' ? t.lightMode : t.darkMode}
             >
               {theme === 'dark' ? (
                 <>
                   <Sun className="w-4 h-4 text-amber-400" />
-                  <span className="hidden md:inline">Mode Clar</span>
+                  <span className="hidden md:inline">{t.lightMode}</span>
                 </>
               ) : (
                 <>
                   <Moon className="w-4 h-4 text-sky-600" />
-                  <span className="hidden md:inline">Mode Fosc</span>
+                  <span className="hidden md:inline">{t.darkMode}</span>
                 </>
               )}
+            </button>
+
+            {/* Guia Pas a Pas Modal Button */}
+            <button
+              id="header-btn-guide-modal"
+              type="button"
+              onClick={() => setShowGuideModal(true)}
+              className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-600 text-white shadow-sm shadow-sky-500/25 transition-all cursor-pointer"
+              title={t.guideButton}
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>{t.guideButton}</span>
             </button>
 
             <button
@@ -344,7 +365,7 @@ export default function App() {
               onClick={() => setShowShareModal(true)}
               className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 transition-colors shadow-2xs"
             >
-              Exportar Coordenades
+              {t.exportCoordsButton}
             </button>
 
             <button
@@ -353,28 +374,51 @@ export default function App() {
               onClick={() => setShowPythonModal(true)}
               className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-600/20 dark:hover:bg-emerald-600/30 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/30 transition-colors shadow-2xs"
             >
-              Codi Python
+              {t.pythonCodeButton}
             </button>
+
+            <a
+              id="header-btn-download-word-guide"
+              href="./guia_us_generador_targetes_qr.docx"
+              download="guia_us_generador_targetes_qr.docx"
+              className="hidden lg:inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-sky-50 hover:bg-sky-100 dark:bg-sky-500/10 dark:hover:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-300 dark:border-sky-500/30 transition-colors shadow-2xs"
+              title={t.wordGuideButton}
+            >
+              <FileText className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
+              <span>{t.wordGuideButton}</span>
+            </a>
           </div>
         </div>
       </header>
 
       {/* Main Content Dashboard */}
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-6 flex flex-col gap-6">
-        {/* Quick Instructions Banner */}
+        {/* Quick Instructions Banner with Direct Guide Access */}
         <div className="bg-white dark:bg-gradient-to-r dark:from-slate-900 dark:via-sky-950/20 dark:to-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-slate-600 dark:text-slate-300 shadow-xs transition-colors duration-200">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-sky-500/10 dark:bg-sky-500/20 border border-sky-500/20 dark:border-sky-500/30 flex items-center justify-center text-sky-600 dark:text-sky-400 flex-shrink-0">
+            <div className="w-8 h-8 rounded-xl bg-sky-500/10 dark:bg-sky-500/20 border border-sky-500/20 dark:border-sky-500/30 flex items-center justify-center text-sky-600 dark:text-sky-400 flex-shrink-0">
               <Sparkles className="w-4 h-4" />
             </div>
             <div>
-              <span className="font-semibold text-slate-900 dark:text-white">Com funciona: </span>
-              Dibuixeu el requadre a la imatge del darrere per definir la posició del QR (queda desat automàticament). Indiqueu el número d'inici i la quantitat, i descarregueu el document A4 amb el davant i darrere de costat tocant-se per imprimir i doblegar fàcilment.
+              <span className="font-semibold text-slate-900 dark:text-white">{t.howItWorksTitle} </span>
+              {t.howItWorksText}
             </div>
           </div>
 
-          <div className="text-[11px] font-mono text-slate-500 dark:text-slate-400 whitespace-nowrap bg-slate-50 dark:bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800">
-            Format: <span className="text-sky-600 dark:text-sky-300 font-semibold">{sampleFormattedCode}</span>
+          <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
+            <button
+              id="banner-btn-open-guide-modal"
+              type="button"
+              onClick={() => setShowGuideModal(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs shadow-sm shadow-sky-500/25 transition-all whitespace-nowrap cursor-pointer"
+            >
+              <ImageIcon className="w-3.5 h-3.5" />
+              {t.viewGuideBtn}
+            </button>
+
+            <div className="text-[11px] font-mono text-slate-500 dark:text-slate-400 whitespace-nowrap bg-slate-50 dark:bg-slate-900 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800">
+              {t.exampleLabel} <span className="text-sky-600 dark:text-sky-300 font-semibold">{sampleFormattedCode}</span>
+            </div>
           </div>
         </div>
 
@@ -435,20 +479,25 @@ export default function App() {
         />
       )}
 
+      {showGuideModal && (
+        <GuideModal
+          onClose={() => setShowGuideModal(false)}
+        />
+      )}
+
       {/* Footer with Credits and License */}
       <footer className="border-t border-slate-200 dark:border-slate-800/80 bg-white/60 dark:bg-slate-900/50 py-6 px-4 transition-colors duration-200 mt-auto">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left">
             <span className="font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-              Creat amb <span className="text-sky-600 dark:text-sky-400 font-bold">VibeCoding</span>
+              {t.createdWith}
             </span>
             <span className="hidden sm:inline text-slate-300 dark:text-slate-700">•</span>
             <div className="flex items-center gap-1.5">
-              <span>Àngel Agustí</span>
               <a
                 href="mailto:aagust11@xtec.cat"
                 className="inline-flex items-center gap-1 text-sky-600 dark:text-sky-400 hover:underline hover:text-sky-500"
-                title="Contacte per correu"
+                title="Contacte per correu / Email contact"
               >
                 <Mail className="w-3.5 h-3.5" />
                 aagust11@xtec.cat
@@ -458,8 +507,26 @@ export default function App() {
 
           <div className="flex flex-wrap items-center justify-center gap-3 text-center sm:text-right">
             <span className="text-slate-500 dark:text-slate-400">
-              Es pot utilitzar i crear lliurement, <strong className="text-rose-600 dark:text-rose-400">però mai cobrar</strong>
+              {t.freeUseNote}
             </span>
+            <button
+              id="footer-btn-open-guide-modal"
+              type="button"
+              onClick={() => setShowGuideModal(true)}
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-sky-50 hover:bg-sky-100 dark:bg-sky-500/10 dark:hover:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-300 dark:border-sky-500/30 transition-colors font-medium shadow-2xs cursor-pointer"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
+              {t.guideFooterText}
+            </button>
+            <a
+              id="footer-btn-download-word-guide"
+              href="./guia_us_generador_targetes_qr.docx"
+              download="guia_us_generador_targetes_qr.docx"
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 transition-colors font-medium shadow-2xs"
+            >
+              <FileText className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
+              Guia (.docx)
+            </a>
             <button
               id="footer-btn-license"
               type="button"
@@ -467,7 +534,7 @@ export default function App() {
               className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/30 transition-colors font-medium cursor-pointer shadow-2xs"
             >
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-              Llicència CC BY-NC-SA 4.0
+              {t.licenseBtnText}
             </button>
           </div>
         </div>

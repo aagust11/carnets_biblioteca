@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import QRCode from 'qrcode';
 import { BoundingBox } from '../types';
 import { Maximize2, Move, RotateCcw, Check, Sparkles, SlidersHorizontal, Lock, Unlock } from 'lucide-react';
+import { useI18n } from '../i18n';
 
 interface CanvasEditorProps {
   backImageUrl: string;
@@ -18,6 +19,7 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
   onChangeBox,
   sampleCode,
 }) => {
+  const { t } = useI18n();
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const [activeHandle, setActiveHandle] = useState<HandleType>(null);
@@ -229,16 +231,16 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
           <div className="flex items-center gap-2">
             <h3 className="text-lg font-semibold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
               <Maximize2 className="w-5 h-5 text-sky-500 dark:text-sky-400" />
-              Editor de Posicionament del QR (Cara Darrere)
+              {t.canvasTitle}
             </h3>
             {savedBadgeVisible && (
               <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 animate-pulse">
-                <Check className="w-3 h-3" /> Desat al navegador
+                <Check className="w-3 h-3" /> {t.savedToBrowser}
               </span>
             )}
           </div>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            Dibuixa o arrossega el requadre on vols que aparegui el codi QR a cada targeta.
+            {t.canvasSubtitle}
           </p>
         </div>
 
@@ -256,7 +258,7 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
             title="Mantenir el requadre quadrat per al codi QR"
           >
             {lockAspectRatio ? <Lock className="w-3.5 h-3.5" /> : <Unlock className="w-3.5 h-3.5" />}
-            Proporció 1:1 {lockAspectRatio ? 'Activada' : 'Lliure'}
+            {lockAspectRatio ? t.aspectRatioLocked : t.aspectRatioFree}
           </button>
 
           <button
@@ -266,7 +268,7 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
             className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            Restablir Posició
+            {t.resetPositionBtn}
           </button>
         </div>
       </div>
@@ -334,7 +336,7 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
             {/* Badge indicating code and transparent background on hover/active */}
             <div className="absolute -top-6 left-0 bg-sky-600 text-white text-[10px] font-mono px-1.5 py-0.5 rounded shadow pointer-events-none whitespace-nowrap flex items-center gap-1">
               <Move className="w-2.5 h-2.5" />
-              {sampleCode} • Fons Transparent
+              {sampleCode} • {t.transparentBg}
             </div>
           </div>
         </div>
@@ -345,7 +347,7 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1">
             <SlidersHorizontal className="w-3.5 h-3.5 text-sky-500 dark:text-sky-400" />
-            Posicions ràpides:
+            {t.quickPositions}:
           </span>
           <button
             id="preset-bottom-right"
@@ -353,7 +355,7 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
             onClick={() => applyPreset('bottom-right')}
             className="px-2.5 py-1 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors shadow-2xs"
           >
-            Inferior Dreta
+            {t.bottomRight}
           </button>
           <button
             id="preset-bottom-left"
@@ -361,7 +363,7 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
             onClick={() => applyPreset('bottom-left')}
             className="px-2.5 py-1 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors shadow-2xs"
           >
-            Inferior Esquerra
+            {t.bottomLeft}
           </button>
           <button
             id="preset-top-right"
@@ -369,7 +371,7 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
             onClick={() => applyPreset('top-right')}
             className="px-2.5 py-1 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors shadow-2xs"
           >
-            Superior Dreta
+            {t.topRight}
           </button>
           <button
             id="preset-center"
@@ -377,7 +379,7 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
             onClick={() => applyPreset('center')}
             className="px-2.5 py-1 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors shadow-2xs"
           >
-            Centrat
+            {t.center}
           </button>
         </div>
 

@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { Upload, Image as ImageIcon, RotateCcw, FileText } from 'lucide-react';
 import { CardImageData } from '../types';
+import { useI18n } from '../i18n';
 
 interface ImageUploaderProps {
   cardImages: CardImageData;
@@ -13,12 +14,13 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
   onUpdateImages,
   onResetToDefaults,
 }) => {
+  const { t } = useI18n();
   const frontInputRef = useRef<HTMLInputElement>(null);
   const backInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (file: File, side: 'front' | 'back') => {
     if (!file.type.startsWith('image/')) {
-      alert('Si us plau, seleccioneu un fitxer d\'imatge vàlid (PNG, JPG, etc.).');
+      alert(t.validImageAlert);
       return;
     }
 
@@ -61,10 +63,10 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
         <div>
           <h3 className="text-lg font-semibold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
             <ImageIcon className="w-5 h-5 text-sky-500 dark:text-sky-400" />
-            Imatges de la Targeta (Davant i Darrere)
+            {t.uploaderTitle}
           </h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            Carregueu els vostres fitxers PNG o utilitzeu la plantilla de prova incorporada.
+            {t.uploaderSubtitle}
           </p>
         </div>
 
@@ -75,7 +77,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 transition-colors"
         >
           <RotateCcw className="w-3.5 h-3.5" />
-          Restablir a Plantilles de Mostra
+          {t.restoreDefaultsBtn}
         </button>
       </div>
 
@@ -90,7 +92,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-sky-600 dark:text-sky-400 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-sky-500"></span>
-              Cara Davant (Fixa)
+              {t.frontSideTitle}
             </span>
             <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono bg-white dark:bg-slate-900 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-800 shadow-xs">
               {cardImages.frontWidth} × {cardImages.frontHeight} px
@@ -117,7 +119,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
               className="inline-flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-md bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-sky-600 dark:text-sky-300 border border-slate-300 dark:border-slate-700 transition-colors whitespace-nowrap shadow-xs"
             >
               <Upload className="w-3 h-3" />
-              Canviar Davant
+              {t.selectFileText}
             </button>
             <input
               ref={frontInputRef}
@@ -139,7 +141,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-              Cara Darrere (Amb QR Variable)
+              {t.backSideTitle}
             </span>
             <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono bg-white dark:bg-slate-900 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-800 shadow-xs">
               {cardImages.backWidth} × {cardImages.backHeight} px
@@ -166,7 +168,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
               className="inline-flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-md bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-emerald-600 dark:text-emerald-300 border border-slate-300 dark:border-slate-700 transition-colors whitespace-nowrap shadow-xs"
             >
               <Upload className="w-3 h-3" />
-              Canviar Darrere
+              {t.selectFileText}
             </button>
             <input
               ref={backInputRef}

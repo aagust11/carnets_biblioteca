@@ -1,11 +1,21 @@
 import React from 'react';
 import { X, ShieldCheck, CheckCircle, AlertOctagon, HeartHandshake, ExternalLink } from 'lucide-react';
+import { useI18n } from '../i18n';
 
 interface LicenseModalProps {
   onClose: () => void;
 }
 
 export const LicenseModal: React.FC<LicenseModalProps> = ({ onClose }) => {
+  const { t, language } = useI18n();
+
+  const deedUrl =
+    language === 'es'
+      ? 'https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es'
+      : language === 'en'
+      ? 'https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en'
+      : 'https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca';
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fadeIn">
       <div className="relative w-full max-w-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
@@ -17,10 +27,10 @@ export const LicenseModal: React.FC<LicenseModalProps> = ({ onClose }) => {
             </div>
             <div>
               <h3 className="text-base font-semibold text-slate-900 dark:text-white">
-                Llicència de l'Aplicació
+                {t.licenseModalTitle}
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Creative Commons Reconeixement-NoComercial-CompartirIgual (CC BY-NC-SA 4.0)
+                {t.licenseModalSubtitle}
               </p>
             </div>
           </div>
@@ -87,12 +97,12 @@ export const LicenseModal: React.FC<LicenseModalProps> = ({ onClose }) => {
         {/* Footer */}
         <div className="flex items-center justify-between px-6 py-3 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/50 text-xs">
           <a
-            href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca"
+            href={deedUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 text-sky-600 dark:text-sky-400 hover:underline"
           >
-            Llegir la llicència completa a Creative Commons
+            Creative Commons (CC BY-NC-SA 4.0)
             <ExternalLink className="w-3 h-3" />
           </a>
 
@@ -101,7 +111,7 @@ export const LicenseModal: React.FC<LicenseModalProps> = ({ onClose }) => {
             onClick={onClose}
             className="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-medium text-xs transition-colors"
           >
-            Entès i Tancar
+            {t.close}
           </button>
         </div>
       </div>

@@ -1,4 +1,4 @@
-name: Desplegar a GitHub Pages
+name: Desplegar a GitHub Pages 
 
 on:
   push:
@@ -23,8 +23,6 @@ jobs:
       - name: Baixar codi
         uses: actions/checkout@v4
 
-
-
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
@@ -35,8 +33,6 @@ jobs:
 
       - name: Compilar aplicació per a producció
         run: npm run build
-
-
 
       - name: Pujar artefacte per a GitHub Pages
         uses: actions/upload-pages-artifact@v3
