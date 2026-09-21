@@ -1,0 +1,6 @@
+{
+  "name": "Generador de Targetes QR i PDF A4",
+  "description": "Aplicació per posicionar codis QR interactius sobre la imatge del darrere i generar documents A4 imprimibles amb el davant i darrere numerats.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
