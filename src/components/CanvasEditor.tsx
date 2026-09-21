@@ -222,22 +222,22 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
   };
 
   return (
-    <div id="canvas-editor-container" className="flex flex-col gap-4 bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-6 text-slate-100 shadow-xl">
+    <div id="canvas-editor-container" className="flex flex-col gap-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 md:p-6 text-slate-800 dark:text-slate-100 shadow-sm dark:shadow-xl transition-colors">
       {/* Editor Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <h3 className="text-lg font-semibold text-white tracking-tight flex items-center gap-2">
-              <Maximize2 className="w-5 h-5 text-sky-400" />
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+              <Maximize2 className="w-5 h-5 text-sky-500 dark:text-sky-400" />
               Editor de Posicionament del QR (Cara Darrere)
             </h3>
             {savedBadgeVisible && (
-              <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 animate-pulse">
+              <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 animate-pulse">
                 <Check className="w-3 h-3" /> Desat al navegador
               </span>
             )}
           </div>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Dibuixa o arrossega el requadre on vols que aparegui el codi QR a cada targeta.
           </p>
         </div>
@@ -250,8 +250,8 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
             onClick={() => setLockAspectRatio(!lockAspectRatio)}
             className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border transition-colors ${
               lockAspectRatio
-                ? 'bg-sky-500/20 text-sky-300 border-sky-500/40'
-                : 'bg-slate-800 text-slate-400 border-slate-700 hover:text-slate-200'
+                ? 'bg-sky-50 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 border-sky-300 dark:border-sky-500/40'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-700 hover:text-slate-900 dark:hover:text-slate-200'
             }`}
             title="Mantenir el requadre quadrat per al codi QR"
           >
@@ -263,7 +263,7 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
             id="btn-reset-box"
             type="button"
             onClick={() => applyPreset('bottom-right')}
-            className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             Restablir Posició
@@ -276,9 +276,9 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
         ref={containerRef}
         id="interactive-canvas-wrapper"
         onMouseDown={handleStartDraw}
-        className="relative mx-auto w-full max-w-3xl select-none flex items-center justify-center p-2 rounded-xl bg-slate-950/60 border border-slate-800/80 overflow-hidden cursor-crosshair min-h-[300px]"
+        className="relative mx-auto w-full max-w-3xl select-none flex items-center justify-center p-3 rounded-xl bg-slate-100 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 overflow-hidden cursor-crosshair min-h-[300px]"
       >
-        <div className="relative inline-block shadow-2xl rounded-xl overflow-hidden border border-slate-700/50">
+        <div className="relative inline-block shadow-lg dark:shadow-2xl rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700/50">
           <img
             ref={imgRef}
             src={backImageUrl}
@@ -290,7 +290,7 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
           {/* Interactive Bounding Box Overlay */}
           <div
             id="qr-interactive-bounding-box"
-            className="qr-bounding-box absolute border-2 border-dashed border-sky-400 bg-transparent hover:bg-sky-500/5 shadow-md cursor-move flex items-center justify-center transition-shadow group hover:border-sky-300"
+            className="qr-bounding-box absolute border-2 border-dashed border-sky-500 dark:border-sky-400 bg-transparent hover:bg-sky-500/5 shadow-md cursor-move flex items-center justify-center transition-shadow group hover:border-sky-600 dark:hover:border-sky-300"
             style={{
               left: `${box.xPercent}%`,
               top: `${box.yPercent}%`,
@@ -307,7 +307,7 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
                 className="w-full h-full object-contain p-0.5 pointer-events-none opacity-95 filter drop-shadow-sm"
               />
             ) : (
-              <div className="flex flex-col items-center justify-center text-sky-200 text-xs font-mono">
+              <div className="flex flex-col items-center justify-center text-sky-700 dark:text-sky-200 text-xs font-mono">
                 <span>QR CODE</span>
                 <span className="text-[10px] opacity-75">{sampleCode}</span>
               </div>
@@ -341,17 +341,17 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
       </div>
 
       {/* Quick Presets & Manual Adjustments footer */}
-      <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-300 bg-slate-950/40 p-3 rounded-xl border border-slate-800">
+      <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-950/40 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-slate-400 font-medium flex items-center gap-1">
-            <SlidersHorizontal className="w-3.5 h-3.5 text-sky-400" />
+          <span className="text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1">
+            <SlidersHorizontal className="w-3.5 h-3.5 text-sky-500 dark:text-sky-400" />
             Posicions ràpides:
           </span>
           <button
             id="preset-bottom-right"
             type="button"
             onClick={() => applyPreset('bottom-right')}
-            className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 rounded text-slate-200 border border-slate-700 transition-colors"
+            className="px-2.5 py-1 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors shadow-2xs"
           >
             Inferior Dreta
           </button>
@@ -359,7 +359,7 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
             id="preset-bottom-left"
             type="button"
             onClick={() => applyPreset('bottom-left')}
-            className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 rounded text-slate-200 border border-slate-700 transition-colors"
+            className="px-2.5 py-1 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors shadow-2xs"
           >
             Inferior Esquerra
           </button>
@@ -367,7 +367,7 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
             id="preset-top-right"
             type="button"
             onClick={() => applyPreset('top-right')}
-            className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 rounded text-slate-200 border border-slate-700 transition-colors"
+            className="px-2.5 py-1 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors shadow-2xs"
           >
             Superior Dreta
           </button>
@@ -375,18 +375,18 @@ export const CanvasEditor: React.FC<CanvasEditorProps> = ({
             id="preset-center"
             type="button"
             onClick={() => applyPreset('center')}
-            className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 rounded text-slate-200 border border-slate-700 transition-colors"
+            className="px-2.5 py-1 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors shadow-2xs"
           >
             Centrat
           </button>
         </div>
 
         {/* Fine-grain coordinate inputs */}
-        <div className="flex items-center gap-3 font-mono text-[11px] text-slate-400">
-          <span>X: <strong className="text-slate-200">{box.xPercent.toFixed(1)}%</strong></span>
-          <span>Y: <strong className="text-slate-200">{box.yPercent.toFixed(1)}%</strong></span>
-          <span>W: <strong className="text-slate-200">{box.widthPercent.toFixed(1)}%</strong></span>
-          <span>H: <strong className="text-slate-200">{box.heightPercent.toFixed(1)}%</strong></span>
+        <div className="flex items-center gap-3 font-mono text-[11px] text-slate-500 dark:text-slate-400">
+          <span>X: <strong className="text-slate-800 dark:text-slate-200">{box.xPercent.toFixed(1)}%</strong></span>
+          <span>Y: <strong className="text-slate-800 dark:text-slate-200">{box.yPercent.toFixed(1)}%</strong></span>
+          <span>W: <strong className="text-slate-800 dark:text-slate-200">{box.widthPercent.toFixed(1)}%</strong></span>
+          <span>H: <strong className="text-slate-800 dark:text-slate-200">{box.heightPercent.toFixed(1)}%</strong></span>
         </div>
       </div>
     </div>

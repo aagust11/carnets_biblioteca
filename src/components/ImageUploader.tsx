@@ -56,14 +56,14 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
   };
 
   return (
-    <div id="image-uploader-section" className="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-6 text-slate-100 shadow-xl">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4 mb-4">
+    <div id="image-uploader-section" className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 md:p-6 text-slate-800 dark:text-slate-100 shadow-sm dark:shadow-xl transition-colors">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4 mb-4">
         <div>
-          <h3 className="text-lg font-semibold text-white tracking-tight flex items-center gap-2">
-            <ImageIcon className="w-5 h-5 text-sky-400" />
+          <h3 className="text-lg font-semibold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+            <ImageIcon className="w-5 h-5 text-sky-500 dark:text-sky-400" />
             Imatges de la Targeta (Davant i Darrere)
           </h3>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Carregueu els vostres fitxers PNG o utilitzeu la plantilla de prova incorporada.
           </p>
         </div>
@@ -72,7 +72,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           id="btn-reset-sample-cards"
           type="button"
           onClick={onResetToDefaults}
-          className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 transition-colors"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           Restablir a Plantilles de Mostra
@@ -85,19 +85,19 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           id="front-image-dropzone"
           onDragOver={(e) => e.preventDefault()}
           onDrop={(e) => handleDrop(e, 'front')}
-          className="group relative flex flex-col bg-slate-950/60 border-2 border-dashed border-slate-800 hover:border-sky-500/50 rounded-xl p-3 transition-all"
+          className="group relative flex flex-col bg-slate-50 dark:bg-slate-950/60 border-2 border-dashed border-slate-300 dark:border-slate-800 hover:border-sky-500 rounded-xl p-3 transition-all"
         >
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-sky-400"></span>
+            <span className="text-xs font-semibold uppercase tracking-wider text-sky-600 dark:text-sky-400 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-sky-500"></span>
               Cara Davant (Fixa)
             </span>
-            <span className="text-[11px] text-slate-400 font-mono bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono bg-white dark:bg-slate-900 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-800 shadow-xs">
               {cardImages.frontWidth} × {cardImages.frontHeight} px
             </span>
           </div>
 
-          <div className="relative aspect-[16/10] w-full rounded-lg overflow-hidden bg-slate-900 flex items-center justify-center border border-slate-800">
+          <div className="relative aspect-[16/10] w-full rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-900 flex items-center justify-center border border-slate-200 dark:border-slate-800">
             <img
               src={cardImages.frontUrl}
               alt="Cara davant"
@@ -106,15 +106,15 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           </div>
 
           <div className="mt-3 flex items-center justify-between gap-2">
-            <div className="truncate text-xs text-slate-400 flex items-center gap-1">
-              <FileText className="w-3.5 h-3.5 flex-shrink-0 text-slate-500" />
+            <div className="truncate text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
+              <FileText className="w-3.5 h-3.5 flex-shrink-0 text-slate-400 dark:text-slate-500" />
               <span className="truncate">{cardImages.frontName}</span>
             </div>
             <button
               id="btn-upload-front"
               type="button"
               onClick={() => frontInputRef.current?.click()}
-              className="inline-flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 transition-colors whitespace-nowrap"
+              className="inline-flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-md bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-sky-600 dark:text-sky-300 border border-slate-300 dark:border-slate-700 transition-colors whitespace-nowrap shadow-xs"
             >
               <Upload className="w-3 h-3" />
               Canviar Davant
@@ -134,19 +134,19 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           id="back-image-dropzone"
           onDragOver={(e) => e.preventDefault()}
           onDrop={(e) => handleDrop(e, 'back')}
-          className="group relative flex flex-col bg-slate-950/60 border-2 border-dashed border-slate-800 hover:border-sky-500/50 rounded-xl p-3 transition-all"
+          className="group relative flex flex-col bg-slate-50 dark:bg-slate-950/60 border-2 border-dashed border-slate-300 dark:border-slate-800 hover:border-emerald-500 rounded-xl p-3 transition-all"
         >
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
               Cara Darrere (Amb QR Variable)
             </span>
-            <span className="text-[11px] text-slate-400 font-mono bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono bg-white dark:bg-slate-900 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-800 shadow-xs">
               {cardImages.backWidth} × {cardImages.backHeight} px
             </span>
           </div>
 
-          <div className="relative aspect-[16/10] w-full rounded-lg overflow-hidden bg-slate-900 flex items-center justify-center border border-slate-800">
+          <div className="relative aspect-[16/10] w-full rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-900 flex items-center justify-center border border-slate-200 dark:border-slate-800">
             <img
               src={cardImages.backUrl}
               alt="Cara darrere"
@@ -155,15 +155,15 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           </div>
 
           <div className="mt-3 flex items-center justify-between gap-2">
-            <div className="truncate text-xs text-slate-400 flex items-center gap-1">
-              <FileText className="w-3.5 h-3.5 flex-shrink-0 text-slate-500" />
+            <div className="truncate text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1">
+              <FileText className="w-3.5 h-3.5 flex-shrink-0 text-slate-400 dark:text-slate-500" />
               <span className="truncate">{cardImages.backName}</span>
             </div>
             <button
               id="btn-upload-back"
               type="button"
               onClick={() => backInputRef.current?.click()}
-              className="inline-flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-slate-700 transition-colors whitespace-nowrap"
+              className="inline-flex items-center gap-1 text-xs font-medium px-3 py-1 rounded-md bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-emerald-600 dark:text-emerald-300 border border-slate-300 dark:border-slate-700 transition-colors whitespace-nowrap shadow-xs"
             >
               <Upload className="w-3 h-3" />
               Canviar Darrere
